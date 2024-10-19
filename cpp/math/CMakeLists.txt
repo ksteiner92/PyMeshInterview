@@ -1,0 +1,53 @@
+add_library(Math SHARED poisson.cc diffoperators.cc)
+add_library(Mesh::Math ALIAS Math)
+
+find_package(Mesh REQUIRED)
+find_package(Eigen3 REQUIRED)
+find_package(IO REQUIRED)
+
+target_compile_features(Math PRIVATE cxx_std_20)
+target_include_directories(Math
+  PUBLIC
+      $<INSTALL_INTERFACE:include>
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  PRIVATE
+      ${EIGEN3_INCLUDE_DIR}
+      ${Mesh_INCLUDE_DIR}
+      ${IO_INCLUDE_DIR}
+      ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+set_target_properties(Math PROPERTIES OUTPUT_NAME "math$<$<CONFIG:Debug>:-d>")
+
+set(Math_Version 1.0)
+target_link_libraries(Math PRIVATE Mesh::Mesh Mesh::IO)
+
+include(GNUInstallDirs)
+install(TARGETS Math
+  EXPORT MathTargets
+        LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR}
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+      install(EXPORT MathTargets
+	FILE MeshTargets.cmake
+        NAMESPACE Mesh::
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Math)
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file("MathConfigVersion.cmake"
+  VERSION ${Math_Version}
+        COMPATIBILITY SameMajorVersion)
+
+configure_package_config_file(${CMAKE_CURRENT_LIST_DIR}/cmake/MathConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/MathConfig.cmake
+        INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Math)
+
+install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/MathConfig.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/MathConfigVersion.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Math)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+export(TARGETS Math FILE ${CMAKE_CURRENT_BINARY_DIR}/MathTargets.cmake NAMESPACE Mesh::)
+export(PACKAGE Math)
