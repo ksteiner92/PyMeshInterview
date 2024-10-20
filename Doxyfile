@@ -1,0 +1,80 @@
+# Doxyfile 1.9.1
+
+PROJECT_NAME           = "PyMesh"
+PROJECT_NUMBER         = "1.0"
+PROJECT_BRIEF          = "Mesh processing library"
+OUTPUT_DIRECTORY       = ./doxygen_output
+QUIET                  = NO
+WARN_IF_UNDOCUMENTED   = YES
+
+INPUT                  = ./cpp
+RECURSIVE              = YES
+FILE_PATTERNS          = *.cc *.cpp *.h *.hpp *.py
+
+EXCLUDE_PATTERNS       = */cmake/* */test/* */build/*
+EXCLUDE_SYMLINKS       = NO
+
+STRIP_FROM_PATH        = ./cpp
+
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+
+GENERATE_LATEX         = YES
+LATEX_OUTPUT           = latex
+
+# Python support: For the py/mesh directories
+EXTENSION_MAPPING      = py=Python
+EXTRACT_PYTHON_DOCSTRINGS = YES
+
+# Graphviz/Diagram configuration
+HAVE_DOT               = YES
+DOT_PATH               = /usr/bin/dot       # Modify this path based on your Graphviz installation
+DOT_FONTNAME           = Helvetica
+DOT_FONTSIZE           = 10
+CLASS_DIAGRAMS         = YES
+UML_LOOK               = YES
+
+# Enable call graph and caller graph (for function/method-level relations)
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+
+# Enable collaboration diagrams
+COLLABORATION_GRAPH    = YES
+
+# Adjusting the maximum graph width/height
+MAX_DOT_GRAPH_WIDTH    = 1024
+MAX_DOT_GRAPH_HEIGHT   = 768
+
+# Set transparent background for diagrams using DOT_GRAPH settings
+DOT_TRANSPARENT        = YES             # Key setting for making the diagrams transparent
+DOT_IMAGE_FORMAT       = svg             # SVG image format supports transparency (can be svg or png)
+INTERACTIVE_SVG        = YES             # Enables interactive diagrams with SVG format
+
+# Impacts the relational graphs (class relationships, inheritance, etc.)
+TEMPLATE_RELATIONS     = YES
+DOT_MULTI_TARGETS      = YES
+
+INCLUDE_GRAPH          = YES
+INCLUDED_BY_GRAPH      = YES
+CLASS_GRAPH            = YES
+GROUP_GRAPHS           = YES
+
+# Optional Formatting options for graph font/style (you may tweak as needed)
+DOT_GRAPH_MAX_NODES    = 50
+DOT_GRAPH_MAX_EDGES    = 50
+
+# Additional Formatting - Cleaning up DOT files after generation
+DOT_CLEANUP            = YES
+
+# Preprocessing
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
+
+# Extract documentation from private/static members as well
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = YES
+
+# Markdown support
+MARKDOWN_SUPPORT       = YES
+AUTOLINK_SUPPORT       = YES
